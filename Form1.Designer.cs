@@ -90,6 +90,7 @@ namespace HealthCalculators
             this.btn_BMI_result.TabIndex = 4;
             this.btn_BMI_result.Text = "Get BMI";
             this.btn_BMI_result.UseVisualStyleBackColor = true;
+            this.btn_BMI_result.Click += new System.EventHandler(this.btn_BMI_result_Click);
             // 
             // age_label
             // 
