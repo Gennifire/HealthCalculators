@@ -41,6 +41,9 @@ namespace HealthCalculators
             this.BMI_pic = new System.Windows.Forms.PictureBox();
             this.results_Box = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.age_Box = new System.Windows.Forms.TextBox();
+            this.height_Box = new System.Windows.Forms.TextBox();
+            this.weight_Box = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.BMI_pic)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,9 +87,9 @@ namespace HealthCalculators
             // 
             // btn_BMI_result
             // 
-            this.btn_BMI_result.Location = new System.Drawing.Point(153, 344);
+            this.btn_BMI_result.Location = new System.Drawing.Point(138, 263);
             this.btn_BMI_result.Name = "btn_BMI_result";
-            this.btn_BMI_result.Size = new System.Drawing.Size(187, 39);
+            this.btn_BMI_result.Size = new System.Drawing.Size(112, 39);
             this.btn_BMI_result.TabIndex = 4;
             this.btn_BMI_result.Text = "Get BMI";
             this.btn_BMI_result.UseVisualStyleBackColor = true;
@@ -95,7 +98,7 @@ namespace HealthCalculators
             // age_label
             // 
             this.age_label.AutoSize = true;
-            this.age_label.Location = new System.Drawing.Point(142, 48);
+            this.age_label.Location = new System.Drawing.Point(159, 9);
             this.age_label.Name = "age_label";
             this.age_label.Size = new System.Drawing.Size(39, 20);
             this.age_label.TabIndex = 5;
@@ -104,7 +107,7 @@ namespace HealthCalculators
             // height_Label
             // 
             this.height_Label.AutoSize = true;
-            this.height_Label.Location = new System.Drawing.Point(142, 141);
+            this.height_Label.Location = new System.Drawing.Point(143, 84);
             this.height_Label.Name = "height_Label";
             this.height_Label.Size = new System.Drawing.Size(81, 20);
             this.height_Label.TabIndex = 6;
@@ -113,7 +116,7 @@ namespace HealthCalculators
             // weight_Label
             // 
             this.weight_Label.AutoSize = true;
-            this.weight_Label.Location = new System.Drawing.Point(142, 234);
+            this.weight_Label.Location = new System.Drawing.Point(138, 167);
             this.weight_Label.Name = "weight_Label";
             this.weight_Label.Size = new System.Drawing.Size(86, 20);
             this.weight_Label.TabIndex = 7;
@@ -122,35 +125,59 @@ namespace HealthCalculators
             // BMI_pic
             // 
             this.BMI_pic.Image = ((System.Drawing.Image)(resources.GetObject("BMI_pic.Image")));
-            this.BMI_pic.Location = new System.Drawing.Point(404, 12);
+            this.BMI_pic.Location = new System.Drawing.Point(284, 2);
             this.BMI_pic.Name = "BMI_pic";
-            this.BMI_pic.Size = new System.Drawing.Size(384, 304);
-            this.BMI_pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.BMI_pic.Size = new System.Drawing.Size(384, 340);
+            this.BMI_pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.BMI_pic.TabIndex = 8;
             this.BMI_pic.TabStop = false;
             // 
             // results_Box
             // 
-            this.results_Box.Location = new System.Drawing.Point(522, 337);
+            this.results_Box.Location = new System.Drawing.Point(361, 359);
             this.results_Box.Multiline = true;
             this.results_Box.Name = "results_Box";
-            this.results_Box.Size = new System.Drawing.Size(241, 79);
+            this.results_Box.Size = new System.Drawing.Size(237, 79);
             this.results_Box.TabIndex = 9;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(444, 340);
+            this.label1.Location = new System.Drawing.Point(284, 359);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 20);
             this.label1.TabIndex = 10;
             this.label1.Text = "Results:";
             // 
+            // age_Box
+            // 
+            this.age_Box.Location = new System.Drawing.Point(112, 37);
+            this.age_Box.Name = "age_Box";
+            this.age_Box.Size = new System.Drawing.Size(166, 27);
+            this.age_Box.TabIndex = 11;
+            // 
+            // height_Box
+            // 
+            this.height_Box.Location = new System.Drawing.Point(112, 117);
+            this.height_Box.Name = "height_Box";
+            this.height_Box.Size = new System.Drawing.Size(166, 27);
+            this.height_Box.TabIndex = 12;
+            // 
+            // weight_Box
+            // 
+            this.weight_Box.Location = new System.Drawing.Point(112, 197);
+            this.weight_Box.Name = "weight_Box";
+            this.weight_Box.Size = new System.Drawing.Size(166, 27);
+            this.weight_Box.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(676, 450);
+            this.Controls.Add(this.weight_Box);
+            this.Controls.Add(this.height_Box);
+            this.Controls.Add(this.age_Box);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.results_Box);
             this.Controls.Add(this.BMI_pic);
@@ -183,6 +210,9 @@ namespace HealthCalculators
         private System.Windows.Forms.PictureBox BMI_pic;
         private System.Windows.Forms.TextBox results_Box;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox age_Box;
+        private System.Windows.Forms.TextBox height_Box;
+        private System.Windows.Forms.TextBox weight_Box;
     }
 }
 

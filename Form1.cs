@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using RestSharp;
 using RestSharp.Serializers.Json;
+using unirest_net;
 
 namespace HealthCalculators
 {
@@ -21,32 +22,41 @@ namespace HealthCalculators
 
         private void btn_BMI_Page_Click(object sender, EventArgs e)
         {
-
+            //shows BMI form elements
+            BMI_pic.Visible = true;
+            btn_BMI_result.Visible = true;
         }
 
         private void btn_Macro_Page_Click(object sender, EventArgs e)
         {
+            //Removes BMI form elements
             BMI_pic.Visible = false;
             btn_BMI_result.Visible = false;
         }
 
-        private void btn_BMI_result_Click(object sender, EventArgs e)
+        private async void btn_BMI_result_Click(object sender, EventArgs e)
         {
-            var client = new RestClient("https://bmi.p.rapidapi.com/");
+            var client = new RestClient("https://mega-fitness-calculator1.p.rapidapi.com/bmi?weight=65&height=167");
             var request = new RestRequest();
-            request.AddHeader("content-type", "application/json");
-            request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
-            request.AddHeader("x-rapidapi-host", "bmi.p.rapidapi.com");
-            request.AddParameter("application/json", "{\r\n    \"weight\": {\r\n        \"value\": \"85.00\",\r\n        \"unit\": \"kg\"\r\n    },\r\n    \"height\": {\r\n        \"value\": \"170.00\",\r\n        \"unit\": \"cm\"\r\n    },\r\n    \"sex\": \"m\",\r\n    \"age\": \"24\",\r\n    \"waist\": \"34.00\",\r\n    \"hip\": \"40.00\"\r\n}", ParameterType.RequestBody);
-            var response = client.ExecuteAsync(request);
+            request.AddHeader("x-rapidapi-host", "mega-fitness-calculator1.p.rapidapi.com");
+            request.AddHeader("x-rapidapi-key", "ec6dc6e4bcmsh87299e3b4d9f6b4p1e413fjsn10f7f37e01ba");
+            var response = await client.ExecuteAsync(request);
+
+            var myDesializer = new SystemTextJsonSerializer();
+            
+            Application temp = myDesializer.Deserialize<Application>(response);
+            
+
+
+            //results_Box.Text = weight.;
         }
 
 
         //Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
         public class Weight
         {
-            public string value { get; set; }
-            public string unit { get; set; }
+            public string weight { get; set; }
+            
         }
 
         public class Height
@@ -55,7 +65,12 @@ namespace HealthCalculators
             public string unit { get; set; }
         }
 
-        public class Root
+        public class Gender
+        {
+            public string gender { get; set; }
+        }
+
+        public class Application
         {
             public Weight weight { get; set; }
             public Height height { get; set; }
@@ -64,8 +79,6 @@ namespace HealthCalculators
             public string waist { get; set; }
             public string hip { get; set; }
         }
-
-
 
     }
 }
