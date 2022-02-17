@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using RestSharp;
 using RestSharp.Serializers.Json;
-using unirest_net;
+
 
 namespace HealthCalculators
 {
@@ -36,8 +36,8 @@ namespace HealthCalculators
 
         private async void btn_BMI_result_Click(object sender, EventArgs e)
         {
-            var client = new RestClient("https://fitness-api.p.rapidapi.com/fitness");
-            var request = new RestRequest();
+            RestClient client = new RestClient("https://fitness-api.p.rapidapi.com/fitness");
+            RestRequest request = new RestRequest();
 
             request.AddHeader("content-type", "application/x-www-form-urlencoded");
             request.AddHeader("x-rapidapi-host", "fitness-api.p.rapidapi.com");
@@ -52,21 +52,31 @@ namespace HealthCalculators
 
             //Deserialize json response
             var myDes = new SystemTextJsonSerializer();
-            Bodymassindex temp = myDes.Deserialize<Bodymassindex>(response);
+            Peterson temp = myDes.Deserialize<Peterson>(response);
+            MessageBox.Show(response.Content);
 
-            GetUsersInputs getUsersInputs = new GetUsersInputs();
+            //get and set user inputs
+            //get height
+            //temp.height = Convert.ToInt32(height_Box.Text);
+            //get weight
+            //temp.weight = Convert.ToInt32(weight_Box.Text);
 
-            getUsersInputs.height = Convert.ToInt32(height_Box.Text);
-            getUsersInputs.weight = Convert.ToInt32(weight_Box.Text);
-
-
-            results_Box.Text += (temp.value);
+            
+            
+            try
+            {
+                results_Box.Text += temp.formulaName;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
        
 
-        public class GetUsersInputs
+        public class GetUsersInputs 
         {
             public int height { get; set; }
             public int weight { get; set; }
@@ -74,19 +84,19 @@ namespace HealthCalculators
             public Bodymassindex bodyMassIndex { get; set; }
         }
 
-        public class Idealbodyweight
+        public class Idealbodyweight 
         {
             public Peterson peterson { get; set; }
         }
 
-        public class Peterson
+        public class Peterson 
         {
             public string formulaName { get; set; }
             public Metric metric { get; set; }
             public Imperial imperial { get; set; }
         }
 
-        public class Metric
+        public class Metric 
         {
             public float value { get; set; }
             public string[] unit { get; set; }
@@ -98,7 +108,7 @@ namespace HealthCalculators
             public string[] unit { get; set; }
         }
 
-        public class Bodymassindex
+        public class Bodymassindex : GetUsersInputs
         {
             public float value { get; set; }
             public string conclusion { get; set; }

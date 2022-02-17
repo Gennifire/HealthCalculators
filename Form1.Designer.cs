@@ -109,9 +109,9 @@ namespace HealthCalculators
             this.height_Label.AutoSize = true;
             this.height_Label.Location = new System.Drawing.Point(143, 84);
             this.height_Label.Name = "height_Label";
-            this.height_Label.Size = new System.Drawing.Size(81, 20);
+            this.height_Label.Size = new System.Drawing.Size(88, 20);
             this.height_Label.TabIndex = 6;
-            this.height_Label.Text = "Height (m)";
+            this.height_Label.Text = "Height (cm)";
             // 
             // weight_Label
             // 
