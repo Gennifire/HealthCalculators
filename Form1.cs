@@ -38,17 +38,21 @@ namespace HealthCalculators
         {
             var client = new RestClient("https://fitness-api.p.rapidapi.com/fitness");
             var request = new RestRequest();
+
             request.AddHeader("content-type", "application/x-www-form-urlencoded");
             request.AddHeader("x-rapidapi-host", "fitness-api.p.rapidapi.com");
             request.AddHeader("x-rapidapi-key", "ec6dc6e4bcmsh87299e3b4d9f6b4p1e413fjsn10f7f37e01ba");
-            request.AddParameter("application/x-www-form-urlencoded", "height=190&weight=80&age=30&gender=male&exercise=little&neck=41&hip=100&waist=88&goal=maintenance&deficit=500&goalWeight=85", ParameterType.RequestBody);
+            request.AddParameter("application/x-www-form-urlencoded", 
+                                 "height=190&weight=80&age=30&gender=male&exercise=little&neck=41&hip=100&waist=88&goal=maintenance&deficit=500&goalWeight=85", 
+                                  ParameterType.RequestBody);
+
             var response = await client.ExecuteAsync(request);
 
 
 
 
 
-            results_Box.Text = response.value;
+            results_Box.Text += response.Content;
         }
 
 
