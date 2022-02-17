@@ -46,19 +46,27 @@ namespace HealthCalculators
                                  "height=190&weight=80&age=30&gender=male&exercise=little&neck=41&hip=100&waist=88&goal=maintenance&deficit=500&goalWeight=85", 
                                   ParameterType.RequestBody);
 
+            //get response from API
             var response = await client.ExecuteAsync(request);
 
 
+            //Deserialize json response
+            var myDes = new SystemTextJsonSerializer();
+            Bodymassindex temp = myDes.Deserialize<Bodymassindex>(response);
+
+            GetUsersInputs getUsersInputs = new GetUsersInputs();
+
+            getUsersInputs.height = Convert.ToInt32(height_Box.Text);
+            getUsersInputs.weight = Convert.ToInt32(weight_Box.Text);
 
 
-
-            results_Box.Text += response.Content;
+            results_Box.Text += (temp.value);
         }
 
 
        
 
-        public class Rootobject
+        public class GetUsersInputs
         {
             public int height { get; set; }
             public int weight { get; set; }
