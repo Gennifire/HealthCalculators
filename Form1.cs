@@ -36,49 +36,63 @@ namespace HealthCalculators
 
         private async void btn_BMI_result_Click(object sender, EventArgs e)
         {
-            var client = new RestClient("https://mega-fitness-calculator1.p.rapidapi.com/bmi?weight=65&height=167");
+            var client = new RestClient("https://fitness-api.p.rapidapi.com/fitness");
             var request = new RestRequest();
-            request.AddHeader("x-rapidapi-host", "mega-fitness-calculator1.p.rapidapi.com");
+            request.AddHeader("content-type", "application/x-www-form-urlencoded");
+            request.AddHeader("x-rapidapi-host", "fitness-api.p.rapidapi.com");
             request.AddHeader("x-rapidapi-key", "ec6dc6e4bcmsh87299e3b4d9f6b4p1e413fjsn10f7f37e01ba");
+            request.AddParameter("application/x-www-form-urlencoded", "height=190&weight=80&age=30&gender=male&exercise=little&neck=41&hip=100&waist=88&goal=maintenance&deficit=500&goalWeight=85", ParameterType.RequestBody);
             var response = await client.ExecuteAsync(request);
 
-            var myDesializer = new SystemTextJsonSerializer();
-            
-            Application temp = myDesializer.Deserialize<Application>(response);
-            
 
 
-            //results_Box.Text = weight.;
+
+
+            results_Box.Text = response.value;
         }
 
 
-        //Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-        public class Weight
+       
+
+        public class Rootobject
         {
-            public string weight { get; set; }
-            
+            public int height { get; set; }
+            public int weight { get; set; }
+            public Idealbodyweight idealBodyWeight { get; set; }
+            public Bodymassindex bodyMassIndex { get; set; }
         }
 
-        public class Height
+        public class Idealbodyweight
         {
-            public string value { get; set; }
+            public Peterson peterson { get; set; }
+        }
+
+        public class Peterson
+        {
+            public string formulaName { get; set; }
+            public Metric metric { get; set; }
+            public Imperial imperial { get; set; }
+        }
+
+        public class Metric
+        {
+            public float value { get; set; }
+            public string[] unit { get; set; }
+        }
+
+        public class Imperial
+        {
+            public float value { get; set; }
+            public string[] unit { get; set; }
+        }
+
+        public class Bodymassindex
+        {
+            public float value { get; set; }
+            public string conclusion { get; set; }
             public string unit { get; set; }
         }
 
-        public class Gender
-        {
-            public string gender { get; set; }
-        }
-
-        public class Application
-        {
-            public Weight weight { get; set; }
-            public Height height { get; set; }
-            public string sex { get; set; }
-            public string age { get; set; }
-            public string waist { get; set; }
-            public string hip { get; set; }
-        }
 
     }
 }
