@@ -54,30 +54,31 @@ namespace HealthCalculators
 
             //get and set user inputs
             //get age
-            temp.age = age_Box.Text;
+            temp.age = Convert.ToInt32(age_Box.Text);
             //get height
-            temp.height = (height_Box.Text);
+            temp.height = Convert.ToInt32(height_Box.Text);
             //get weight
-            temp.weight = (weight_Box.Text);
+            temp.weight = Convert.ToInt32(weight_Box.Text);
 
+                              
+                results_Box.Text += temp.bmi;
             
             
-           
-                results_Box.Text += temp.age;
-            
-            
-              
-            
-
         }
 
        public class data
+       {
+            public int age { get; set; }
+
+            public int weight { get; set; }
+
+            public int height { get; set; }
+
+       }
+
+        public class Root
         {
-            public string age { get; set; }
-
-            public string weight { get; set; }
-
-            public string height { get; set; }
+            public string bmi { get; set; }
         }
 
     }
