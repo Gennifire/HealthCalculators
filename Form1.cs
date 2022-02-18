@@ -36,85 +36,49 @@ namespace HealthCalculators
 
         private async void btn_BMI_result_Click(object sender, EventArgs e)
         {
-            RestClient client = new RestClient("https://fitness-api.p.rapidapi.com/fitness");
-            RestRequest request = new RestRequest();
+            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
+            var request = new RestRequest("", Method.Get);
+            request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
+            request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
+           // request.AddParameter(/bmi?age=ageValue&weight=weightValue&height=heightValue);
 
-            request.AddHeader("content-type", "application/x-www-form-urlencoded");
-            request.AddHeader("x-rapidapi-host", "fitness-api.p.rapidapi.com");
-            request.AddHeader("x-rapidapi-key", "ec6dc6e4bcmsh87299e3b4d9f6b4p1e413fjsn10f7f37e01ba");
-            request.AddParameter("application/x-www-form-urlencoded", 
-                                 "height=190&weight=80&age=30&gender=male&exercise=little&neck=41&hip=100&waist=88&goal=maintenance&deficit=500&goalWeight=85", 
-                                  ParameterType.RequestBody);
 
             //get response from API
             var response = await client.ExecuteAsync(request);
-
+           
 
             //Deserialize json response
             var myDes = new SystemTextJsonSerializer();
-            Peterson temp = myDes.Deserialize<Peterson>(response);
+            data temp = myDes.Deserialize<data>(response);
             MessageBox.Show(response.Content);
 
             //get and set user inputs
+            //get age
+            temp.age = age_Box.Text;
             //get height
-            //temp.height = Convert.ToInt32(height_Box.Text);
+            temp.height = (height_Box.Text);
             //get weight
-            //temp.weight = Convert.ToInt32(weight_Box.Text);
+            temp.weight = (weight_Box.Text);
 
             
             
-            try
-            {
-                results_Box.Text += temp.formulaName;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+           
+                results_Box.Text += temp.age;
+            
+            
+              
+            
+
         }
 
-
-       
-
-        public class GetUsersInputs 
+       public class data
         {
-            public int height { get; set; }
-            public int weight { get; set; }
-            public Idealbodyweight idealBodyWeight { get; set; }
-            public Bodymassindex bodyMassIndex { get; set; }
-        }
+            public string age { get; set; }
 
-        public class Idealbodyweight 
-        {
-            public Peterson peterson { get; set; }
-        }
+            public string weight { get; set; }
 
-        public class Peterson 
-        {
-            public string formulaName { get; set; }
-            public Metric metric { get; set; }
-            public Imperial imperial { get; set; }
+            public string height { get; set; }
         }
-
-        public class Metric 
-        {
-            public float value { get; set; }
-            public string[] unit { get; set; }
-        }
-
-        public class Imperial
-        {
-            public float value { get; set; }
-            public string[] unit { get; set; }
-        }
-
-        public class Bodymassindex : GetUsersInputs
-        {
-            public float value { get; set; }
-            public string conclusion { get; set; }
-            public string unit { get; set; }
-        }
-
 
     }
 }
