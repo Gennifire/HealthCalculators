@@ -21,7 +21,6 @@ namespace HealthCalculators
         {
             InitializeComponent();
 
-            
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -75,11 +74,15 @@ namespace HealthCalculators
 
 
             //Deserialize json response
+            //details
             var myDataDeserializer = new SystemTextJsonSerializer();
             Data DataDetails = myDataDeserializer.Deserialize<Data>(BMIresponse);
+            var DeserialiseHealthCalc = new SystemTextJsonSerializer();
+            HealthCalculator healthCalc = DeserialiseHealthCalc.Deserialize<HealthCalculator>(BMIresponse);
 
-            //test reponse
-            MessageBox.Show($"{DataDetails.age} {DataDetails.health} {userDeets.healthy_bmi_range}");
+
+            //test reponse 
+            MessageBox.Show($"Bmi = {healthCalc.data.bmi}\n Health = {healthCalc.data.health}\n Bmi Healthy range = {healthCalc.data.healthy_bmi_range}");
 
         }
 
