@@ -28,7 +28,8 @@ namespace HealthCalculators
         {
             //when form loads
             //Connect to from calculation API
-            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/dailycalorie?age=25&gender=male&height=180&weight=70&activitylevel=level_1");
+            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
+
             var request = new RestRequest("", Method.Get);
             request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
             request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
@@ -57,89 +58,63 @@ namespace HealthCalculators
         private async void btn_BMI_result_Click(object sender, EventArgs e)
         {
 
-            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/dailycalorie?age=25&gender=male&height=180&weight=70&activitylevel=level_1");
+            var client = new RestClient($"https://fitness-calculator.p.rapidapi.com/bmi?age={age_Box.Text}&weight={Convert.ToInt32(weight_Box.Text)}&height={Convert.ToInt32(height_Box.Text)}");
+            //var request = new RestRequest("/bmi", Method.Get) { RequestFormat = DataFormat.Json }
+               // .AddBody("/bmi?age={age_Box.Text}&weight=weightValue&height=heightValue");
 
-            var request = new RestRequest("/bmi", Method.Post) { RequestFormat = DataFormat.Json }
-                .AddBody("/bmi?age=ageValue&weight=weightValue&height=heightValue");
+            var request = new RestRequest("", Method.Get);
+            request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
+            //header alters the 
+            //request.AddHeader("https://fitness-calculator.p.rapidapi.com", $"/bmi?age={age_Box.Text}&weight={weight_Box.Text}&height={height_Box.Text}");
 
-            //auth
+            //authenticate
             request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
 
-
-            // Handle response errors
-            //HandleResponseErrors(response);
-
-            //if (Errors.Length == 0)
-            //{ }
-            //else
-            //{ }
 
             //var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
             //var request = new RestRequest("bmi", Method.Post);
             //request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
             //request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
-            ////request.AddParameter("", "bmi?age=ageValue&weight=weightValue&height=heightValue");
-            ////request.AddParameter("ageValue&heightValueweightValue");
+            request.AddHeader($"bmi?age={age_Box.Text}&weight={Convert.ToInt32(weight_Box.Text)}&height={Convert.ToInt32(height_Box.Text)}", "https://fitness-calculator.p.rapidapi.com/bmi?age={age_Box.Text}&weight={Convert.ToInt32(weight_Box.Text)}&height={Convert.ToInt32(height_Box.Text)}");
 
             ////get response from API
             var BMIresponse = await client.ExecuteAsync(request);
 
             //Deserialize json response
-            var myDes = new SystemTextJsonSerializer();
-          
-            Getdata DesDetails = myDes.Deserialize<Getdata>(BMIresponse);
-
-            
+            var myDataDeserializer = new SystemTextJsonSerializer();
+            Data DataDetails = myDataDeserializer.Deserialize<Data>(BMIresponse);
 
            
-
 
             //retrieve data
             request.AddParameter("ID", Guid.NewGuid(), ParameterType.QueryString);
             request.AddHeader("Accept", "application/json");
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
-            request.AddBody(new { ageValue = age_Box.Text, heightValue = height_Box.Text, weightValue = weight_Box.Text });
 
             //to test reponse
-            MessageBox.Show(BMIresponse.Content);
+            MessageBox.Show(DataDetails.health);
 
-            //get and set user inputs
-            JObject jObject = new JObject();
-
-            jObject.Add(DesDetails);
-            DesDetails.ageValue = Convert.ToInt32(age_Box.Text);
-            if (DesDetails.ageValue <=0 || DesDetails.ageValue > 80)
-            {
-                MessageBox.Show("Please enter an appropriate age");
-            }
-
-            jObject.Add("age", age_Box.Text);
-            jObject.Add("Height", height_Box.Text);
-            results_Box.Text += DesDetails.bmi;
-            
         }
 
-       public class Getdata
-       {
-            public int bmi { get; set; }
-            public int ageValue { get; set; }
+        public class Data
+        {
+            public double bmi { get; set; }
+            public string health { get; set; }
+            public string healthy_bmi_range { get; set; }
 
-            public string genderValue { get; set; }
+            public int age { get; set; }
 
-            public int weightValue { get; set; }
+            public int height { get; set; }
 
-            public int heightValue { get; set; }
+            public int weight { get; set; }
+        }
 
-            public int neckValue { get; set; }
+        public class HealthCalculator
+        {
+            public int status_code { get; set; }
+            public string request_result { get; set; }
+            public Data data { get; set; }
+        }
 
-            public int waistValue { get; set; }
-
-            public string activityLevel { get; set; }
-
-       }
-
-       
-
-        
     }
 }
