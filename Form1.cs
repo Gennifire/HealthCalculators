@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RestSharp;
 using RestSharp.Serializers.Json;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace HealthCalculators
 {
@@ -24,17 +26,17 @@ namespace HealthCalculators
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            //Connect to from BMI calculation API
-            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
+            //when form loads
+            //Connect to from calculation API
+            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/dailycalorie?age=25&gender=male&height=180&weight=70&activitylevel=level_1");
             var request = new RestRequest("", Method.Get);
             request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
             request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
-            // request.AddParameter(/bmi?age=ageValue&weight=weightValue&height=heightValue);
 
-
-            //get response from BMI API
-            var BMIresponse = await client.ExecuteAsync(request);
             
+            //test get response from BMI API
+            var BMIresponse = await client.ExecuteAsync(request);
+            MessageBox.Show(BMIresponse.Content);
         }
 
         private async void btn_BMI_Page_Click(object sender, EventArgs e)
@@ -55,44 +57,88 @@ namespace HealthCalculators
         private async void btn_BMI_result_Click(object sender, EventArgs e)
         {
 
-            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
-            var request = new RestRequest("", Method.Post);
-            request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
-            request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
-            request.AddParameter("", "bmi?age=ageValue&weight=weightValue&height=heightValue");
+            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/dailycalorie?age=25&gender=male&height=180&weight=70&activitylevel=level_1");
 
-            //get response from API
+            var request = new RestRequest("/bmi", Method.Post) { RequestFormat = DataFormat.Json }
+                .AddBody("/bmi?age=ageValue&weight=weightValue&height=heightValue");
+
+            //auth
+            request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
+
+
+            // Handle response errors
+            //HandleResponseErrors(response);
+
+            //if (Errors.Length == 0)
+            //{ }
+            //else
+            //{ }
+
+            //var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
+            //var request = new RestRequest("bmi", Method.Post);
+            //request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
+            //request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
+            ////request.AddParameter("", "bmi?age=ageValue&weight=weightValue&height=heightValue");
+            ////request.AddParameter("ageValue&heightValueweightValue");
+
+            ////get response from API
             var BMIresponse = await client.ExecuteAsync(request);
 
             //Deserialize json response
             var myDes = new SystemTextJsonSerializer();
-            HealthCalculator DesCalculator = myDes.Deserialize<HealthCalculator>(BMIresponse);
+          
             Getdata DesDetails = myDes.Deserialize<Getdata>(BMIresponse);
+
             
+
+           
+
+
+            //retrieve data
+            request.AddParameter("ID", Guid.NewGuid(), ParameterType.QueryString);
+            request.AddHeader("Accept", "application/json");
+            request.AddHeader("Content-Type", "application/json; charset=utf-8");
+            request.AddBody(new { ageValue = age_Box.Text, heightValue = height_Box.Text, weightValue = weight_Box.Text });
+
+            //to test reponse
             MessageBox.Show(BMIresponse.Content);
 
             //get and set user inputs
+            JObject jObject = new JObject();
+
+            jObject.Add(DesDetails);
             DesDetails.ageValue = Convert.ToInt32(age_Box.Text);
-            DesDetails.heightValue = Convert.ToInt32(height_Box.Text);
-            DesDetails.weightValue = Convert.ToInt32(weight_Box.Text);
-            results_Box.Text += DesCalculator.bmi;
+            if (DesDetails.ageValue <=0 || DesDetails.ageValue > 80)
+            {
+                MessageBox.Show("Please enter an appropriate age");
+            }
+
+            jObject.Add("age", age_Box.Text);
+            jObject.Add("Height", height_Box.Text);
+            results_Box.Text += DesDetails.bmi;
             
         }
 
        public class Getdata
        {
+            public int bmi { get; set; }
             public int ageValue { get; set; }
+
+            public string genderValue { get; set; }
 
             public int weightValue { get; set; }
 
             public int heightValue { get; set; }
 
+            public int neckValue { get; set; }
+
+            public int waistValue { get; set; }
+
+            public string activityLevel { get; set; }
+
        }
 
-        public class HealthCalculator
-        {
-            public string bmi { get; set; }
-        }
+       
 
         
     }
