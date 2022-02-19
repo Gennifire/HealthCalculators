@@ -190,7 +190,8 @@ namespace HealthCalculators
             this.Controls.Add(this.btn_Macro_Page);
             this.Controls.Add(this.btn_BMI_Page);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "HealthCalulator";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.BMI_pic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

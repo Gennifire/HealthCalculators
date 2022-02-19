@@ -18,10 +18,28 @@ namespace HealthCalculators
         public Form1()
         {
             InitializeComponent();
+
+            
         }
 
-        private void btn_BMI_Page_Click(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
+            //Connect to from BMI calculation API
+            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
+            var request = new RestRequest("", Method.Get);
+            request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
+            request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
+            // request.AddParameter(/bmi?age=ageValue&weight=weightValue&height=heightValue);
+
+
+            //get response from BMI API
+            var BMIresponse = await client.ExecuteAsync(request);
+            
+        }
+
+        private async void btn_BMI_Page_Click(object sender, EventArgs e)
+        {
+            
             //shows BMI form elements
             BMI_pic.Visible = true;
             btn_BMI_result.Visible = true;
@@ -36,50 +54,46 @@ namespace HealthCalculators
 
         private async void btn_BMI_result_Click(object sender, EventArgs e)
         {
+
             var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
-            var request = new RestRequest("", Method.Get);
+            var request = new RestRequest("", Method.Post);
             request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
             request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
-           // request.AddParameter(/bmi?age=ageValue&weight=weightValue&height=heightValue);
-
+            request.AddParameter("", "bmi?age=ageValue&weight=weightValue&height=heightValue");
 
             //get response from API
-            var response = await client.ExecuteAsync(request);
-           
+            var BMIresponse = await client.ExecuteAsync(request);
 
             //Deserialize json response
             var myDes = new SystemTextJsonSerializer();
-            data temp = myDes.Deserialize<data>(response);
-            MessageBox.Show(response.Content);
+            HealthCalculator DesCalculator = myDes.Deserialize<HealthCalculator>(BMIresponse);
+            Getdata DesDetails = myDes.Deserialize<Getdata>(BMIresponse);
+            
+            MessageBox.Show(BMIresponse.Content);
 
             //get and set user inputs
-            //get age
-            temp.age = Convert.ToInt32(age_Box.Text);
-            //get height
-            temp.height = Convert.ToInt32(height_Box.Text);
-            //get weight
-            temp.weight = Convert.ToInt32(weight_Box.Text);
-
-                              
-                results_Box.Text += temp.bmi;
-            
+            DesDetails.ageValue = Convert.ToInt32(age_Box.Text);
+            DesDetails.heightValue = Convert.ToInt32(height_Box.Text);
+            DesDetails.weightValue = Convert.ToInt32(weight_Box.Text);
+            results_Box.Text += DesCalculator.bmi;
             
         }
 
-       public class data
+       public class Getdata
        {
-            public int age { get; set; }
+            public int ageValue { get; set; }
 
-            public int weight { get; set; }
+            public int weightValue { get; set; }
 
-            public int height { get; set; }
+            public int heightValue { get; set; }
 
        }
 
-        public class Root
+        public class HealthCalculator
         {
             public string bmi { get; set; }
         }
 
+        
     }
 }
