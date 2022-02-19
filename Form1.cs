@@ -26,23 +26,22 @@ namespace HealthCalculators
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            //when form loads
-            //Connect to from calculation API
-            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
+            ////when form loads
+            ////Connect to from calculation API
+            //var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
 
-            var request = new RestRequest("", Method.Get);
-            request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
-            request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
+            //var request = new RestRequest("", Method.Get);
+            //request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
+            //request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
 
             
-            //test get response from BMI API
-            var BMIresponse = await client.ExecuteAsync(request);
-            MessageBox.Show(BMIresponse.Content);
+            ////test get response from BMI API
+            //var BMIresponse = await client.ExecuteAsync(request);
+            //MessageBox.Show(BMIresponse.Content);
         }
 
         private async void btn_BMI_Page_Click(object sender, EventArgs e)
         {
-            
             //shows BMI form elements
             BMI_pic.Visible = true;
             btn_BMI_result.Visible = true;
@@ -57,25 +56,24 @@ namespace HealthCalculators
 
         private async void btn_BMI_result_Click(object sender, EventArgs e)
         {
-
+            //Get response from API
             var client = new RestClient($"https://fitness-calculator.p.rapidapi.com/bmi?age={age_Box.Text}&weight={Convert.ToInt32(weight_Box.Text)}&height={Convert.ToInt32(height_Box.Text)}");
-            //var request = new RestRequest("/bmi", Method.Get) { RequestFormat = DataFormat.Json }
-               // .AddBody("/bmi?age={age_Box.Text}&weight=weightValue&height=heightValue");
-
             var request = new RestRequest("", Method.Get);
-            request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
-            //header alters the 
-            //request.AddHeader("https://fitness-calculator.p.rapidapi.com", $"/bmi?age={age_Box.Text}&weight={weight_Box.Text}&height={height_Box.Text}");
+            
 
             //authenticate
             request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
 
+            //retrieve data
+            request.AddParameter("ID", Guid.NewGuid(), ParameterType.QueryString);
+            request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
+            request.AddHeader("Accept", "application/json");
+            request.AddHeader("Content-Type", "application/json; charset=utf-8");
 
-            //var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bmi?age=23&weight=65&height=180");
-            //var request = new RestRequest("bmi", Method.Post);
-            //request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
-            //request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
-            request.AddHeader($"bmi?age={age_Box.Text}&weight={Convert.ToInt32(weight_Box.Text)}&height={Convert.ToInt32(height_Box.Text)}", "https://fitness-calculator.p.rapidapi.com/bmi?age={age_Box.Text}&weight={Convert.ToInt32(weight_Box.Text)}&height={Convert.ToInt32(height_Box.Text)}");
+            //
+            request.AddHeader("age", $"{Convert.ToInt32(age_Box.Text)}");
+            request.AddHeader("height", $"{Convert.ToInt32(height_Box.Text)}");
+            request.AddHeader("weight", $"{Convert.ToInt32(weight_Box.Text)}");
 
             ////get response from API
             var BMIresponse = await client.ExecuteAsync(request);
@@ -84,15 +82,9 @@ namespace HealthCalculators
             var myDataDeserializer = new SystemTextJsonSerializer();
             Data DataDetails = myDataDeserializer.Deserialize<Data>(BMIresponse);
 
-           
 
-            //retrieve data
-            request.AddParameter("ID", Guid.NewGuid(), ParameterType.QueryString);
-            request.AddHeader("Accept", "application/json");
-            request.AddHeader("Content-Type", "application/json; charset=utf-8");
-
-            //to test reponse
-            MessageBox.Show(DataDetails.health);
+            //test reponse
+            MessageBox.Show($"{DataDetails.bmi}");
 
         }
 
