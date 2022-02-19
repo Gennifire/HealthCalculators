@@ -82,7 +82,7 @@ namespace HealthCalculators
 
 
             //test reponse 
-            MessageBox.Show($"Bmi = {healthCalc.data.bmi}\n Health = {healthCalc.data.health}\n Bmi Healthy range = {healthCalc.data.healthy_bmi_range}");
+            MessageBox.Show($"Bmi = {healthCalc.data.bmi}\nHealth = {healthCalc.data.health}\nBmi Healthy range = {healthCalc.data.healthy_bmi_range}");
 
         }
 
