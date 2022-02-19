@@ -20,7 +20,6 @@ namespace HealthCalculators
         public Form1()
         {
             InitializeComponent();
-
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -64,7 +63,7 @@ namespace HealthCalculators
             MessageBox.Show(BMIresponse.Content);
 
 
-            //assign user inputs to header values
+            //assign user inputs to header values : not used
             var userDeets = new Data
             {
                 age = Convert.ToInt32(age_Box.Text),
@@ -72,11 +71,16 @@ namespace HealthCalculators
                 weight = Convert.ToInt32(weight_Box.Text)
             };
 
+            if (age_Box.Text == "" && height_Box.Text == "" && weight_Box.Text == "")
+            {
+                MessageBox.Show("Please input a value!");
+            }
 
-            //Deserialize json response
-            //details
+            //Deserialize json response 
+            //details deserialiser
             var myDataDeserializer = new SystemTextJsonSerializer();
             Data DataDetails = myDataDeserializer.Deserialize<Data>(BMIresponse);
+            //calculation deserialiser
             var DeserialiseHealthCalc = new SystemTextJsonSerializer();
             HealthCalculator healthCalc = DeserialiseHealthCalc.Deserialize<HealthCalculator>(BMIresponse);
 
