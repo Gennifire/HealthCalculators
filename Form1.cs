@@ -32,6 +32,9 @@ namespace HealthCalculators
             //shows BMI form elements
             BMI_pic.Visible = true;
             btn_BMI_result.Visible = true;
+            //remove Body fat form elements
+            btn_BodyFat_calc.Visible = false;
+            BodyFat_pic.Visible = false;
         }
 
         private void btn_BodyFat_Page_Click(object sender, EventArgs e)
@@ -39,6 +42,9 @@ namespace HealthCalculators
             //Removes BMI form elements
             BMI_pic.Visible = false;
             btn_BMI_result.Visible = false;
+            //show body fat form elements
+            btn_BodyFat_calc.Visible = true;
+            BodyFat_pic.Visible = true;
         }
 
         #region BMI API call
@@ -53,15 +59,13 @@ namespace HealthCalculators
             request.AddHeader("x-rapidapi-key", "8c12547588msh5afaecc61abe785p1b6facjsn74f4a83ef1d6");
 
             //retrieve data
-            //get response from API
+            //get response from API with parameters/headers
             var BMIresponse = await client.ExecuteAsync(request);
-            request.AddParameter("ID", Guid.NewGuid(), ParameterType.QueryString);
             request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
-            request.AddHeader("Accept", "application/json");
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
 
             //test response
-            MessageBox.Show(BMIresponse.Content);
+            //MessageBox.Show(BMIresponse.Content);
 
 
             //assign user inputs to header values : not used
@@ -72,6 +76,7 @@ namespace HealthCalculators
                 weight = Convert.ToInt32(weight_Box.Text)
             };
 
+            //error handling
             if (age_Box.Text == "" && height_Box.Text == "" && weight_Box.Text == "")
             {
                 MessageBox.Show("Please input a value!");
@@ -86,16 +91,28 @@ namespace HealthCalculators
             BMICalculator healthCalc = DeserialiseHealthCalc.Deserialize<BMICalculator>(BMIresponse);
 
 
-            //test reponse 
+            //Cleaned up reponse : maybe add to a text box for permancene on page
             MessageBox.Show($"Bmi = {healthCalc.data.bmi}\nHealth = {healthCalc.data.health}\nBmi Healthy range = {healthCalc.data.healthy_bmi_range}");
 
-        }
+        } 
         #endregion BMI API call
 
         #region BodyFat API Call
-
-        private void btn_BodyFat_calc_Click(object sender, EventArgs e)
+        private async void btn_BodyFat_calc_Click(object sender, EventArgs e)
         {
+            //call to Body fat API
+            var client = new RestClient("https://fitness-calculator.p.rapidapi.com/bodyfat?age=25&gender=male&weight=70&height=178&neck=50&waist=96&hip=92");
+            var request = new RestRequest("", Method.Get);
+
+            //
+            request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
+            request.AddHeader("x-rapidapi-key", "ec6dc6e4bcmsh87299e3b4d9f6b4p1e413fjsn10f7f37e01ba");
+            var BodyFatResponse = await client.ExecuteAsync(request);
+
+            //test response
+            MessageBox.Show(BodyFatResponse.Content);
+
+
 
         }
 
@@ -121,7 +138,6 @@ namespace HealthCalculators
             public string request_result { get; set; }
             public BMIData data { get; set; }
         }
-
         #endregion BMI Classes
 
         #region Body Fat Classes
