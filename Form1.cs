@@ -69,12 +69,12 @@ namespace HealthCalculators
 
 
             //assign user inputs to header values : not used
-            var userDeets = new BMIData
-            {
-                age = Convert.ToInt32(age_Box.Text),
-                height = Convert.ToInt32(height_Box.Text),
-                weight = Convert.ToInt32(weight_Box.Text)
-            };
+            //var userDeets = new BMIData
+            //{
+            //    age = Convert.ToInt32(age_Box.Text),
+            //    height = Convert.ToInt32(height_Box.Text),
+            //    weight = Convert.ToInt32(weight_Box.Text)
+            //};
 
             //error handling
             if (age_Box.Text == "" && height_Box.Text == "" && weight_Box.Text == "")
@@ -111,9 +111,7 @@ namespace HealthCalculators
 
             //test response
             MessageBox.Show(BodyFatResponse.Content);
-
-
-
+            
         }
 
         #endregion Body Fat API Call
