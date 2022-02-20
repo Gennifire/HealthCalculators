@@ -22,25 +22,26 @@ namespace HealthCalculators
             InitializeComponent();
         }
 
-        private async void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
            
         }
 
-        private async void btn_BMI_Page_Click(object sender, EventArgs e)
+        private void btn_BMI_Page_Click(object sender, EventArgs e)
         {
             //shows BMI form elements
             BMI_pic.Visible = true;
             btn_BMI_result.Visible = true;
         }
 
-        private void btn_Macro_Page_Click(object sender, EventArgs e)
+        private void btn_BodyFat_Page_Click(object sender, EventArgs e)
         {
             //Removes BMI form elements
             BMI_pic.Visible = false;
             btn_BMI_result.Visible = false;
         }
 
+        #region BMI API call
         private async void btn_BMI_result_Click(object sender, EventArgs e)
         {
             //Make call to API
@@ -64,7 +65,7 @@ namespace HealthCalculators
 
 
             //assign user inputs to header values : not used
-            var userDeets = new Data
+            var userDeets = new BMIData
             {
                 age = Convert.ToInt32(age_Box.Text),
                 height = Convert.ToInt32(height_Box.Text),
@@ -79,18 +80,29 @@ namespace HealthCalculators
             //Deserialize json response 
             //details deserialiser
             var myDataDeserializer = new SystemTextJsonSerializer();
-            Data DataDetails = myDataDeserializer.Deserialize<Data>(BMIresponse);
+            BMIData DataDetails = myDataDeserializer.Deserialize<BMIData>(BMIresponse);
             //calculation deserialiser
             var DeserialiseHealthCalc = new SystemTextJsonSerializer();
-            HealthCalculator healthCalc = DeserialiseHealthCalc.Deserialize<HealthCalculator>(BMIresponse);
+            BMICalculator healthCalc = DeserialiseHealthCalc.Deserialize<BMICalculator>(BMIresponse);
 
 
             //test reponse 
             MessageBox.Show($"Bmi = {healthCalc.data.bmi}\nHealth = {healthCalc.data.health}\nBmi Healthy range = {healthCalc.data.healthy_bmi_range}");
 
         }
+        #endregion BMI API call
 
-        public class Data
+        #region BodyFat API Call
+
+        private void btn_BodyFat_calc_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion Body Fat API Call
+
+        #region BMI classes
+        public class BMIData
         {
             public double bmi { get; set; }
             public string health { get; set; }
@@ -103,12 +115,41 @@ namespace HealthCalculators
             public int weight { get; set; }
         }
 
-        public class HealthCalculator
+        public class BMICalculator
         {
             public int status_code { get; set; }
             public string request_result { get; set; }
-            public Data data { get; set; }
+            public BMIData data { get; set; }
         }
 
+        #endregion BMI Classes
+
+        #region Body Fat Classes
+        public class BodyFatData
+        {
+            [JsonProperty("Body Fat (U.S. Navy Method)")]
+            public double BodyFatUSNavyMethod { get; set; }
+
+            [JsonProperty("Body Fat Category")]
+            public string BodyFatCategory { get; set; }
+
+            [JsonProperty("Body Fat Mass")]
+            public double BodyFatMass { get; set; }
+
+            [JsonProperty("Lean Body Mass")]
+            public double LeanBodyMass { get; set; }
+
+            [JsonProperty("Body Fat (BMI method)")]
+            public double BodyFatBMIMethod { get; set; }
+        }
+
+        public class BodyFatRoot
+        {
+            public int status_code { get; set; }
+            public string request_result { get; set; }
+            public BodyFatData data { get; set; }
+        }
+
+        #endregion Body Fat Classes
     }
 }
