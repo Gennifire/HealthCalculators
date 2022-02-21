@@ -145,8 +145,8 @@ namespace HealthCalculators
             // BMI_pic
             // 
             this.BMI_pic.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BMI_pic.BackgroundImage")));
-            this.BMI_pic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.BMI_pic.Location = new System.Drawing.Point(328, 17);
+            this.BMI_pic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BMI_pic.Location = new System.Drawing.Point(328, 25);
             this.BMI_pic.Name = "BMI_pic";
             this.BMI_pic.Size = new System.Drawing.Size(595, 354);
             this.BMI_pic.TabIndex = 16;
@@ -157,9 +157,9 @@ namespace HealthCalculators
             this.BodyFat_pic.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BodyFat_pic.BackgroundImage")));
             this.BodyFat_pic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.BodyFat_pic.ErrorImage = null;
-            this.BodyFat_pic.Location = new System.Drawing.Point(536, 25);
+            this.BodyFat_pic.Location = new System.Drawing.Point(496, 25);
             this.BodyFat_pic.Name = "BodyFat_pic";
-            this.BodyFat_pic.Size = new System.Drawing.Size(387, 346);
+            this.BodyFat_pic.Size = new System.Drawing.Size(427, 346);
             this.BodyFat_pic.TabIndex = 17;
             this.BodyFat_pic.TabStop = false;
             // 
