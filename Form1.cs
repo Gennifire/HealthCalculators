@@ -118,14 +118,14 @@ namespace HealthCalculators
 
 
                 //display response
-                MessageBox.Show($"Body Fat Mass: {Convert.ToDouble(BodyFatCalculation.data.BodyFatMass)}\n" +
+                MessageBox.Show($"Body Fat Mass: {Convert.ToInt32(BodyFatCalculation.data.BodyFatMass)}\n" +
                                 $"Lean Body Mass: {Convert.ToDouble(BodyFatCalculation.data.LeanBodyMass)}\n" +
                                 $"Body Fat Category: {BodyFatCalculation.data.BodyFatCategory}");
 
             }
             catch
             {
-                MessageBox.Show("PLease use valid inputs");
+                MessageBox.Show("Please use valid inputs");
             }
         }
 
