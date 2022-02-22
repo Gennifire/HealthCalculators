@@ -97,7 +97,7 @@ namespace HealthCalculators
         {
             try {
                 //call to Body fat API
-                var client = new RestClient($"https://fitness-calculator.p.rapidapi.com/bodyfat?age={Convert.ToInt32(age_Box.Text)}&gender={Gender_box.Text}&weight={Convert.ToInt32(weight_Box.Text)}&height={Convert.ToInt32(height_Box.Text)}&neck={Convert.ToInt32(Neck_measurement.Text)}&waist={Convert.ToInt32(Waist_measurement.Text)}&hip={Convert.ToInt32(Hip_measurement.Text)}");
+                var client = new RestClient($"https://fitness-calculator.p.rapidapi.com/bodyfat?age={Convert.ToInt32(age_Box.Text)}&gender={Gender_box.Text}&weight={Convert.ToInt32(weight_Box.Text)}&height={Convert.ToInt32(height_Box.Text)}&neck={Convert.ToDouble(Neck_measurement.Text)}&waist={Convert.ToDouble(Waist_measurement.Text)}&hip={Convert.ToDouble(Hip_measurement.Text)}");
                 var request = new RestRequest("", Method.Get);
 
                 //add headers and parameters
@@ -115,11 +115,11 @@ namespace HealthCalculators
                 //calculation
                 var BodyFatCalcDeserializer = new SystemTextJsonSerializer();
                 BodyFatCalculator BodyFatCalculation = BodyFatCalcDeserializer.Deserialize<BodyFatCalculator>(BodyFatResponse);
-
+                //BodyFatCalculator checkValues = new BodyFatCalculator();
 
                 //display response
-                MessageBox.Show($"Body Fat Mass: {Convert.ToInt32(BodyFatCalculation.data.BodyFatMass)}\n" +
-                                $"Lean Body Mass: {Convert.ToDouble(BodyFatCalculation.data.LeanBodyMass)}\n" +
+                MessageBox.Show($"Body Fat Mass: {BodyFatCalculation.data.BodyFatMass}\n" +
+                                $"Lean Body Mass: {BodyFatCalculation.data.LeanBodyMass}\n" +
                                 $"Body Fat Category: {BodyFatCalculation.data.BodyFatCategory}");
 
             }
