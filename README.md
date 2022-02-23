@@ -10,6 +10,7 @@ Created to help practice using API and making API calls
     - Get method: retrieving data from API
     - Adding parameters to HTTP Request
     - Adding user inputs as Headers to HTTP Request
+    - basic error handling
 
 
 - Body fat % checker : Building off of the BMI calculator added a second call to API to retrieve body fat %
