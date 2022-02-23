@@ -25,7 +25,17 @@ namespace HealthCalculators
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            //shows BMI form elements
+            BMI_pic.Visible = true;
+            btn_BMI_result.Visible = true;
+            weight_Box.Visible = true;
+            weight_Label.Visible = true;
+            //remove ideal weight form elements
+            btn_IdealWeight_calc.Visible = false;
+            BodyFat_pic.Visible = false;
+            Gender_box.Visible = false;
+            gender_label.Visible = false;
+            
         }
 
         private void btn_BMI_Page_Click(object sender, EventArgs e)
@@ -33,9 +43,14 @@ namespace HealthCalculators
             //shows BMI form elements
             BMI_pic.Visible = true;
             btn_BMI_result.Visible = true;
-            //remove Body fat form elements
+            weight_Box.Visible = true;
+            weight_Label.Visible = true;
+            //remove ideal weight form elements
             btn_IdealWeight_calc.Visible = false;
             BodyFat_pic.Visible = false;
+            Gender_box.Visible = false;
+            gender_label.Visible = false;
+            
         }
 
         private void btn_BodyFat_Page_Click(object sender, EventArgs e)
@@ -43,9 +58,14 @@ namespace HealthCalculators
             //Removes BMI form elements
             BMI_pic.Visible = false;
             btn_BMI_result.Visible = false;
-            //show body fat form elements
+            weight_Box.Visible = false;
+            weight_Label.Visible = false;
+            //show ideal weight form elements
             btn_IdealWeight_calc.Visible = true;
             BodyFat_pic.Visible = true;
+            Gender_box.Visible = true;
+            gender_label.Visible = true;
+            
         }
 
         #region BMI API call
@@ -97,7 +117,7 @@ namespace HealthCalculators
         {
             try {
                 //talk to api
-                var client = new RestClient("https://fitness-calculator.p.rapidapi.com/idealweight?gender={Gender_Box.Text}&height={Convert.ToInt32(height_Box.Text)}");
+                var client = new RestClient($"https://fitness-calculator.p.rapidapi.com/idealweight?gender={Gender_box.Text}&height={Convert.ToInt32(height_Box.Text)}");
                 var request = new RestRequest("", Method.Get);
 
                 //add headers / parameters
@@ -120,10 +140,10 @@ namespace HealthCalculators
 
 
                 //display response
-                MessageBox.Show($"Ideal Weight According to Hamwi: {deserialisedIdealWeightCalc.data.Hamwi}\n" +
-                                $"Ideal Weight According to Devine: {deserialisedIdealWeightCalc.data.Devine}\n" +
-                                $"Ideal Weight According to Miller: {deserialisedIdealWeightCalc.data.Miller}\n" +
-                                $"Ideal Weight According to Robinson: {deserialisedIdealWeightCalc.data.Robinson}");
+                MessageBox.Show($"Ideal Weight According to Hamwi: {deserialisedIdealWeightCalc.data.Hamwi} Kg\n" +
+                                $"Ideal Weight According to Devine: {deserialisedIdealWeightCalc.data.Devine} Kg\n" +
+                                $"Ideal Weight According to Miller: {deserialisedIdealWeightCalc.data.Miller} Kg\n" +
+                                $"Ideal Weight According to Robinson: {deserialisedIdealWeightCalc.data.Robinson} Kg");
 
             }
             catch
@@ -158,35 +178,7 @@ namespace HealthCalculators
         }
         #endregion BMI Classes
 
-        #region Body Fat Classes
-        public class BodyFatData
-        {
-            [JsonProperty("Body Fat (U.S. Navy Method)")]
-            public double BodyFatUSNavyMethod { get; set; }
-
-            [JsonProperty("Body Fat Category")]
-            public string BodyFatCategory { get; set; }
-
-            [JsonProperty("Body Fat Mass")]
-            public double BodyFatMass { get; set; }
-
-           [JsonProperty("Lean Body Mass")]
-            public double LeanBodyMass { get; set; }
-
-            [JsonProperty("Body Fat (BMI method)")]
-            public double BodyFatBMIMethod { get; set; }
-        }
-
-        public class BodyFatCalculator
-        {
-            public int status_code { get; set; }
-            public string request_result { get; set; }
-            public BodyFatData data { get; set; }
-        }
-
-        #endregion Body Fat Classes
-
-        #region
+        #region Ideal Weight Classes
 
         public class IdealWeightData
         {
@@ -203,6 +195,6 @@ namespace HealthCalculators
             public IdealWeightData data { get; set; }
         }
 
-        #endregion
+        #endregion Ideal Weight Classes
     }
 }
