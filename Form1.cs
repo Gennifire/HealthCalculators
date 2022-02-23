@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using RestSharp;
 using RestSharp.Serializers.Json;
 using Newtonsoft.Json;
+using System.Text.Json;
 using Newtonsoft.Json.Linq;
 
 namespace HealthCalculators
@@ -33,7 +34,7 @@ namespace HealthCalculators
             BMI_pic.Visible = true;
             btn_BMI_result.Visible = true;
             //remove Body fat form elements
-            btn_BodyFat_calc.Visible = false;
+            btn_IdealWeight_calc.Visible = false;
             BodyFat_pic.Visible = false;
         }
 
@@ -43,7 +44,7 @@ namespace HealthCalculators
             BMI_pic.Visible = false;
             btn_BMI_result.Visible = false;
             //show body fat form elements
-            btn_BodyFat_calc.Visible = true;
+            btn_IdealWeight_calc.Visible = true;
             BodyFat_pic.Visible = true;
         }
 
@@ -78,7 +79,7 @@ namespace HealthCalculators
                 var DeserialiseBMICalc = new SystemTextJsonSerializer();
                 BMICalculator BMICalc = DeserialiseBMICalc.Deserialize<BMICalculator>(BMIresponse);
 
-                //Cleaned up reponse : maybe add to a text box for permanecene on page
+                //Cleaned up reponse : maybe add to a text box for permanence on page
                 MessageBox.Show($"Bmi = {BMICalc.data.bmi}\n" +
                                 $"Health = {BMICalc.data.health}\n" +
                                 $"Bmi Healthy range = {BMICalc.data.healthy_bmi_range}");
@@ -91,36 +92,38 @@ namespace HealthCalculators
         #endregion BMI API call
 
 
-
         #region BodyFat API Call
-        private async void btn_BodyFat_calc_Click(object sender, EventArgs e)
+        private async void btn_IdealWeight_calc_Click(object sender, EventArgs e)
         {
             try {
-                //call to Body fat API
-                var client = new RestClient($"https://fitness-calculator.p.rapidapi.com/bodyfat?age={Convert.ToInt32(age_Box.Text)}&gender={Gender_box.Text}&weight={Convert.ToInt32(weight_Box.Text)}&height={Convert.ToInt32(height_Box.Text)}&neck={Convert.ToDouble(Neck_measurement.Text)}&waist={Convert.ToDouble(Waist_measurement.Text)}&hip={Convert.ToDouble(Hip_measurement.Text)}");
+                //talk to api
+                var client = new RestClient("https://fitness-calculator.p.rapidapi.com/idealweight?gender={Gender_Box.Text}&height={Convert.ToInt32(height_Box.Text)}");
                 var request = new RestRequest("", Method.Get);
 
-                //add headers and parameters
+                //add headers / parameters
                 request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
                 request.AddHeader("x-rapidapi-key", "ec6dc6e4bcmsh87299e3b4d9f6b4p1e413fjsn10f7f37e01ba");
-                var BodyFatResponse = await client.ExecuteAsync(request);
+                var idealWeightResponse = await client.ExecuteAsync(request);
 
                 //test json response
-                MessageBox.Show(BodyFatResponse.Content);
+                MessageBox.Show(idealWeightResponse.Content);
 
                 //deserialize response
-                //BodyFatData
-                var bodyFatDetails = new SystemTextJsonSerializer();
-                BodyFatData deserialisedBodyFatDetails = bodyFatDetails.Deserialize<BodyFatData>(BodyFatResponse);
+                //Ideal weight Data
+                var idealWeightDataDeserialiser = new SystemTextJsonSerializer();
+                IdealWeightData deserialisedIdealWeightData = idealWeightDataDeserialiser.Deserialize<IdealWeightData>(idealWeightResponse);
+
                 //calculation
-                var BodyFatCalcDeserializer = new SystemTextJsonSerializer();
-                BodyFatCalculator BodyFatCalculation = BodyFatCalcDeserializer.Deserialize<BodyFatCalculator>(BodyFatResponse);
-                //BodyFatCalculator checkValues = new BodyFatCalculator();
+                var idealWeightCalcDeserialiser = new SystemTextJsonSerializer();
+                IdealWeightCalculation deserialisedIdealWeightCalc = idealWeightDataDeserialiser.Deserialize<IdealWeightCalculation>(idealWeightResponse);
+
+
 
                 //display response
-                MessageBox.Show($"Body Fat Mass: {BodyFatCalculation.data.BodyFatMass}\n" +
-                                $"Lean Body Mass: {BodyFatCalculation.data.LeanBodyMass}\n" +
-                                $"Body Fat Category: {BodyFatCalculation.data.BodyFatCategory}");
+                MessageBox.Show($"Ideal Weight According to Hamwi: {deserialisedIdealWeightCalc.data.Hamwi}\n" +
+                                $"Ideal Weight According to Devine: {deserialisedIdealWeightCalc.data.Devine}\n" +
+                                $"Ideal Weight According to Miller: {deserialisedIdealWeightCalc.data.Miller}\n" +
+                                $"Ideal Weight According to Robinson: {deserialisedIdealWeightCalc.data.Robinson}");
 
             }
             catch
@@ -130,6 +133,11 @@ namespace HealthCalculators
         }
 
         #endregion Body Fat API Call
+
+        #region
+
+
+        #endregion
 
         #region BMI classes
         public class BMIData
@@ -162,7 +170,7 @@ namespace HealthCalculators
             [JsonProperty("Body Fat Mass")]
             public double BodyFatMass { get; set; }
 
-            [JsonProperty("Lean Body Mass")]
+           [JsonProperty("Lean Body Mass")]
             public double LeanBodyMass { get; set; }
 
             [JsonProperty("Body Fat (BMI method)")]
@@ -177,5 +185,24 @@ namespace HealthCalculators
         }
 
         #endregion Body Fat Classes
+
+        #region
+
+        public class IdealWeightData
+        {
+            public double Hamwi { get; set; }
+            public double Devine { get; set; }
+            public double Miller { get; set; }
+            public double Robinson { get; set; }
+        }
+
+        public class IdealWeightCalculation
+        {
+            public int status_code { get; set; }
+            public string request_result { get; set; }
+            public IdealWeightData data { get; set; }
+        }
+
+        #endregion
     }
 }
