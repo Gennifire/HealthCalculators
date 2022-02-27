@@ -107,16 +107,15 @@ namespace HealthCalculators
                 //test response
                 //MessageBox.Show(BMIresponse.Content);
 
-
-                //Deserialize json response 
-                //details deserialiser
+                
+                //details deserialised response
                 var BMIDataDeserializer = new SystemTextJsonSerializer();
                 BMIdata BMIDataDetails = BMIDataDeserializer.Deserialize<BMIdata>(BMIresponse);
                 //calculation deserialiser
                 var DeserialiseBMICalc = new SystemTextJsonSerializer();
                 BMICalculator BMICalc = DeserialiseBMICalc.Deserialize<BMICalculator>(BMIresponse);
 
-                //Cleaned up reponse : maybe add to a text box for permanence on page
+                //Cleaned up reponse : tostring method
                 results_Box.Text = $"Bmi = {BMICalc.data}\r\n";
 
             }
