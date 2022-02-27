@@ -18,9 +18,9 @@ namespace HealthCalculators
         {
             //Overrides and returns a string that represents the current object.
             string text = null;
-            text += bmi + "\n ";
-            text += health + "\n ";
-            text += healthy_bmi_range + "\n ";
+            text += bmi + "\r\n";
+            text += "Where you stand = " + health + "\r\n";
+            text += "Health Bmi range = " + healthy_bmi_range;
 
             return text;
         }

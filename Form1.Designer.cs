@@ -45,13 +45,15 @@ namespace HealthCalculators
             this.Gender_box = new System.Windows.Forms.TextBox();
             this.gender_label = new System.Windows.Forms.Label();
             this.results_Box = new System.Windows.Forms.TextBox();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BMI_pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BodyFat_pic)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_BMI_Page
             // 
-            this.btn_BMI_Page.Location = new System.Drawing.Point(3, 317);
+            this.btn_BMI_Page.Location = new System.Drawing.Point(3, 304);
             this.btn_BMI_Page.Name = "btn_BMI_Page";
             this.btn_BMI_Page.Size = new System.Drawing.Size(98, 72);
             this.btn_BMI_Page.TabIndex = 0;
@@ -61,7 +63,7 @@ namespace HealthCalculators
             // 
             // btn_IdealWeight_Page
             // 
-            this.btn_IdealWeight_Page.Location = new System.Drawing.Point(3, 444);
+            this.btn_IdealWeight_Page.Location = new System.Drawing.Point(107, 304);
             this.btn_IdealWeight_Page.Name = "btn_IdealWeight_Page";
             this.btn_IdealWeight_Page.Size = new System.Drawing.Size(98, 72);
             this.btn_IdealWeight_Page.TabIndex = 1;
@@ -71,9 +73,9 @@ namespace HealthCalculators
             // 
             // btn_BMI_result
             // 
-            this.btn_BMI_result.Location = new System.Drawing.Point(74, 544);
+            this.btn_BMI_result.Location = new System.Drawing.Point(273, 563);
             this.btn_BMI_result.Name = "btn_BMI_result";
-            this.btn_BMI_result.Size = new System.Drawing.Size(138, 48);
+            this.btn_BMI_result.Size = new System.Drawing.Size(119, 36);
             this.btn_BMI_result.TabIndex = 4;
             this.btn_BMI_result.Text = "Get BMI";
             this.btn_BMI_result.UseVisualStyleBackColor = true;
@@ -82,7 +84,7 @@ namespace HealthCalculators
             // age_label
             // 
             this.age_label.AutoSize = true;
-            this.age_label.Location = new System.Drawing.Point(107, 304);
+            this.age_label.Location = new System.Drawing.Point(15, 394);
             this.age_label.Name = "age_label";
             this.age_label.Size = new System.Drawing.Size(39, 20);
             this.age_label.TabIndex = 5;
@@ -91,7 +93,7 @@ namespace HealthCalculators
             // height_Label
             // 
             this.height_Label.AutoSize = true;
-            this.height_Label.Location = new System.Drawing.Point(107, 374);
+            this.height_Label.Location = new System.Drawing.Point(15, 464);
             this.height_Label.Name = "height_Label";
             this.height_Label.Size = new System.Drawing.Size(91, 20);
             this.height_Label.TabIndex = 6;
@@ -100,7 +102,7 @@ namespace HealthCalculators
             // weight_Label
             // 
             this.weight_Label.AutoSize = true;
-            this.weight_Label.Location = new System.Drawing.Point(107, 453);
+            this.weight_Label.Location = new System.Drawing.Point(15, 527);
             this.weight_Label.Name = "weight_Label";
             this.weight_Label.Size = new System.Drawing.Size(88, 20);
             this.weight_Label.TabIndex = 7;
@@ -108,30 +110,30 @@ namespace HealthCalculators
             // 
             // age_Box
             // 
-            this.age_Box.Location = new System.Drawing.Point(121, 327);
+            this.age_Box.Location = new System.Drawing.Point(29, 417);
             this.age_Box.Name = "age_Box";
             this.age_Box.Size = new System.Drawing.Size(106, 32);
             this.age_Box.TabIndex = 11;
             // 
             // height_Box
             // 
-            this.height_Box.Location = new System.Drawing.Point(121, 397);
+            this.height_Box.Location = new System.Drawing.Point(29, 487);
             this.height_Box.Name = "height_Box";
             this.height_Box.Size = new System.Drawing.Size(106, 32);
             this.height_Box.TabIndex = 12;
             // 
             // weight_Box
             // 
-            this.weight_Box.Location = new System.Drawing.Point(121, 476);
+            this.weight_Box.Location = new System.Drawing.Point(29, 550);
             this.weight_Box.Name = "weight_Box";
             this.weight_Box.Size = new System.Drawing.Size(106, 32);
             this.weight_Box.TabIndex = 13;
             // 
             // btn_IdealWeight_calc
             // 
-            this.btn_IdealWeight_calc.Location = new System.Drawing.Point(74, 544);
+            this.btn_IdealWeight_calc.Location = new System.Drawing.Point(273, 563);
             this.btn_IdealWeight_calc.Name = "btn_IdealWeight_calc";
-            this.btn_IdealWeight_calc.Size = new System.Drawing.Size(138, 48);
+            this.btn_IdealWeight_calc.Size = new System.Drawing.Size(119, 36);
             this.btn_IdealWeight_calc.TabIndex = 15;
             this.btn_IdealWeight_calc.Text = "Get ideal Weight";
             this.btn_IdealWeight_calc.UseVisualStyleBackColor = true;
@@ -160,7 +162,7 @@ namespace HealthCalculators
             // 
             // Gender_box
             // 
-            this.Gender_box.Location = new System.Drawing.Point(121, 476);
+            this.Gender_box.Location = new System.Drawing.Point(29, 550);
             this.Gender_box.Name = "Gender_box";
             this.Gender_box.Size = new System.Drawing.Size(106, 32);
             this.Gender_box.TabIndex = 24;
@@ -168,7 +170,7 @@ namespace HealthCalculators
             // gender_label
             // 
             this.gender_label.AutoSize = true;
-            this.gender_label.Location = new System.Drawing.Point(107, 453);
+            this.gender_label.Location = new System.Drawing.Point(15, 527);
             this.gender_label.Name = "gender_label";
             this.gender_label.Size = new System.Drawing.Size(169, 20);
             this.gender_label.TabIndex = 25;
@@ -176,18 +178,40 @@ namespace HealthCalculators
             // 
             // results_Box
             // 
-            this.results_Box.Location = new System.Drawing.Point(273, 317);
+            this.results_Box.Location = new System.Drawing.Point(254, 304);
             this.results_Box.Multiline = true;
             this.results_Box.Name = "results_Box";
-            this.results_Box.Size = new System.Drawing.Size(300, 274);
+            this.results_Box.Size = new System.Drawing.Size(319, 235);
             this.results_Box.TabIndex = 26;
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(29, 606);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(94, 29);
+            this.btnReset.TabIndex = 27;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(411, 563);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(117, 36);
+            this.btnClear.TabIndex = 28;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(585, 619);
+            this.ClientSize = new System.Drawing.Size(585, 647);
+            this.Controls.Add(this.btnClear);
+            this.Controls.Add(this.btnReset);
             this.Controls.Add(this.results_Box);
             this.Controls.Add(this.BMI_pic);
             this.Controls.Add(this.weight_Box);
@@ -232,6 +256,8 @@ namespace HealthCalculators
         private System.Windows.Forms.TextBox Gender_box;
         private System.Windows.Forms.Label gender_label;
         private System.Windows.Forms.TextBox results_Box;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 
