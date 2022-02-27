@@ -25,6 +25,7 @@ namespace HealthCalculators
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            
             //shows BMI form elements
             BMI_pic.Visible = true;
             btn_BMI_result.Visible = true;
@@ -103,11 +104,13 @@ namespace HealthCalculators
                 MessageBox.Show($"Bmi = {BMICalc.data.bmi}\n" +
                                 $"Health = {BMICalc.data.health}\n" +
                                 $"Bmi Healthy range = {BMICalc.data.healthy_bmi_range}");
+
             }
-            catch
+            catch(Exception error)
             {
-                MessageBox.Show("Please use valid inputs");
+                MessageBox.Show(error.Message);
             }
+            
         }
         #endregion BMI API call
 
@@ -140,15 +143,16 @@ namespace HealthCalculators
 
 
                 //display response
-                MessageBox.Show($"Ideal Weight According to Hamwi: {deserialisedIdealWeightCalc.data.Hamwi} Kg\n" +
-                                $"Ideal Weight According to Devine: {deserialisedIdealWeightCalc.data.Devine} Kg\n" +
-                                $"Ideal Weight According to Miller: {deserialisedIdealWeightCalc.data.Miller} Kg\n" +
-                                $"Ideal Weight According to Robinson: {deserialisedIdealWeightCalc.data.Robinson} Kg");
-
+                results_Box.Text = ($"Ideal weight results below: \n\n" +
+                                    $"Using Hamwi formula: {deserialisedIdealWeightCalc.data.Hamwi} Kg\n" +
+                                    $"Using Devine formula: {deserialisedIdealWeightCalc.data.Devine} Kg\n" +
+                                    $"Using Miller formula: {deserialisedIdealWeightCalc.data.Miller} Kg\n" +
+                                    $"Using Robinson formula: {deserialisedIdealWeightCalc.data.Robinson} Kg");
+                    
             }
-            catch
+            catch (Exception error)
             {
-                MessageBox.Show("Please use valid inputs");
+                MessageBox.Show(error.Message);
             }
         }
 
