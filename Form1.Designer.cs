@@ -65,7 +65,7 @@ namespace HealthCalculators
             this.btn_IdealWeight_Page.Name = "btn_IdealWeight_Page";
             this.btn_IdealWeight_Page.Size = new System.Drawing.Size(98, 72);
             this.btn_IdealWeight_Page.TabIndex = 1;
-            this.btn_IdealWeight_Page.Text = "Get Ideal Weight";
+            this.btn_IdealWeight_Page.Text = "Ideal Weight";
             this.btn_IdealWeight_Page.UseVisualStyleBackColor = true;
             this.btn_IdealWeight_Page.Click += new System.EventHandler(this.btn_BodyFat_Page_Click);
             // 
@@ -229,14 +229,8 @@ namespace HealthCalculators
         private System.Windows.Forms.Button btn_IdealWeight_calc;
         private System.Windows.Forms.PictureBox BMI_pic;
         private System.Windows.Forms.PictureBox BodyFat_pic;
-        private System.Windows.Forms.TextBox Waist_measurement;
-        private System.Windows.Forms.TextBox Neck_measurement;
         private System.Windows.Forms.TextBox Gender_box;
         private System.Windows.Forms.Label gender_label;
-        private System.Windows.Forms.Label neck_label;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox Hip_measurement;
         private System.Windows.Forms.TextBox results_Box;
     }
 }

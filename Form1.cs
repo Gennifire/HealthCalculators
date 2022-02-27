@@ -95,15 +95,15 @@ namespace HealthCalculators
                 //Deserialize json response 
                 //details deserialiser
                 var myDataDeserializer = new SystemTextJsonSerializer();
-                BMIData DataDetails = myDataDeserializer.Deserialize<BMIData>(BMIresponse);
+                BMIdata DataDetails = myDataDeserializer.Deserialize<BMIdata>(BMIresponse);
                 //calculation deserialiser
                 var DeserialiseBMICalc = new SystemTextJsonSerializer();
                 BMICalculator BMICalc = DeserialiseBMICalc.Deserialize<BMICalculator>(BMIresponse);
 
                 //Cleaned up reponse : maybe add to a text box for permanence on page
-                MessageBox.Show($"Bmi = {BMICalc.data.bmi}\n" +
-                                $"Health = {BMICalc.data.health}\n" +
-                                $"Bmi Healthy range = {BMICalc.data.healthy_bmi_range}");
+                results_Box.Text =($"Bmi = {BMICalc.data.bmi}\n" +
+                                   $"Health = {BMICalc.data.health}\n" +
+                                   $"Bmi Healthy range = {BMICalc.data.healthy_bmi_range}");
 
             }
             catch(Exception error)
@@ -164,40 +164,40 @@ namespace HealthCalculators
         #endregion
 
         #region BMI classes
-        public class BMIData
-        {
-            public double bmi { get; set; }
-            public string health { get; set; }
-            public string healthy_bmi_range { get; set; }
-            public int age { get; set; }
-            public int height { get; set; }
-            public int weight { get; set; }
-        }
+        //public class BMIData
+        //{
+        //    public double bmi { get; set; }
+        //    public string health { get; set; }
+        //    public string healthy_bmi_range { get; set; }
+        //    public int age { get; set; }
+        //    public int height { get; set; }
+        //    public int weight { get; set; }
+        //}
 
-        public class BMICalculator
-        {
-            public int status_code { get; set; }
-            public string request_result { get; set; }
-            public BMIData data { get; set; }
-        }
+        //public class BMICalculator
+        //{
+        //    public int status_code { get; set; }
+        //    public string request_result { get; set; }
+        //    public BMIData data { get; set; }
+        //}
         #endregion BMI Classes
 
         #region Ideal Weight Classes
 
-        public class IdealWeightData
-        {
-            public double Hamwi { get; set; }
-            public double Devine { get; set; }
-            public double Miller { get; set; }
-            public double Robinson { get; set; }
-        }
+        //public class IdealWeightData
+        //{
+        //    public double Hamwi { get; set; }
+        //    public double Devine { get; set; }
+        //    public double Miller { get; set; }
+        //    public double Robinson { get; set; }
+        //}
 
-        public class IdealWeightCalculation
-        {
-            public int status_code { get; set; }
-            public string request_result { get; set; }
-            public IdealWeightData data { get; set; }
-        }
+        //public class IdealWeightCalculation
+        //{
+        //    public int status_code { get; set; }
+        //    public string request_result { get; set; }
+        //    public IdealWeightData data { get; set; }
+        //}
 
         #endregion Ideal Weight Classes
     }
