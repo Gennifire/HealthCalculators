@@ -52,6 +52,8 @@ namespace HealthCalculators
             BodyFat_pic.Visible = false;
             Gender_box.Visible = false;
             gender_label.Visible = false;
+            btn_male.Visible = false;
+            btn_female.Visible = false;
             
         }
 
@@ -65,9 +67,11 @@ namespace HealthCalculators
             //show ideal weight form elements
             btn_IdealWeight_calc.Visible = true;
             BodyFat_pic.Visible = true;
-            Gender_box.Visible = true;
+            Gender_box.Visible = false;
             gender_label.Visible = true;
-            
+            btn_male.Visible = true;
+            btn_female.Visible = true;
+
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -131,43 +135,78 @@ namespace HealthCalculators
         #region BodyFat API Call
         private async void btn_IdealWeight_calc_Click(object sender, EventArgs e)
         {
-            try {
-                //talk to api
-                var client = new RestClient($"https://fitness-calculator.p.rapidapi.com/idealweight?gender={Gender_box.Text}&height={Convert.ToInt32(height_Box.Text)}");
-                var request = new RestRequest("", Method.Get);
-
-                //add headers / parameters
-                request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
-                request.AddHeader("x-rapidapi-key", "ec6dc6e4bcmsh87299e3b4d9f6b4p1e413fjsn10f7f37e01ba");
-                var idealWeightResponse = await client.ExecuteAsync(request);
-
-                //test json response
-                MessageBox.Show(idealWeightResponse.Content);
-
-                //deserialize response
-                //Ideal weight Data
-                var idealWeightDataDeserialiser = new SystemTextJsonSerializer();
-                IdealWeightData deserialisedIdealWeightData = idealWeightDataDeserialiser.Deserialize<IdealWeightData>(idealWeightResponse);
-
-                //calculation
-                var idealWeightCalcDeserialiser = new SystemTextJsonSerializer();
-                IdealWeightCalculation deserialisedIdealWeightCalc = idealWeightDataDeserialiser.Deserialize<IdealWeightCalculation>(idealWeightResponse);
-
-
-
-                //display response
-                results_Box.Text = ($"Ideal weight results below: \r\n\r\n" + deserialisedIdealWeightCalc.data);
-                    
-            }
-            catch (Exception error)
+            if (selectedGender == "")
             {
-                MessageBox.Show(error.Message);
+                MessageBox.Show("Please Select Gender.", "Error");
+            }
+            else
+            {
+                try
+                {
+                    //talk to api
+                    var client = new RestClient($"https://fitness-calculator.p.rapidapi.com/idealweight?gender={selectedGender}&height={Convert.ToInt32(height_Box.Text)}");
+                    var request = new RestRequest("", Method.Get);
+
+                    //add headers / parameters
+                    request.AddHeader("x-rapidapi-host", "fitness-calculator.p.rapidapi.com");
+                    request.AddHeader("x-rapidapi-key", "ec6dc6e4bcmsh87299e3b4d9f6b4p1e413fjsn10f7f37e01ba");
+                    var idealWeightResponse = await client.ExecuteAsync(request);
+
+                    //test json response
+                    MessageBox.Show(idealWeightResponse.Content);
+
+                    //deserialize response
+                    //Ideal weight Data
+                    var idealWeightDataDeserialiser = new SystemTextJsonSerializer();
+                    IdealWeightData deserialisedIdealWeightData = idealWeightDataDeserialiser.Deserialize<IdealWeightData>(idealWeightResponse);
+
+                    //calculation
+                    var idealWeightCalcDeserialiser = new SystemTextJsonSerializer();
+                    IdealWeightCalculation deserialisedIdealWeightCalc = idealWeightDataDeserialiser.Deserialize<IdealWeightCalculation>(idealWeightResponse);
+
+
+
+                    //display response
+                    results_Box.Text = ($"Ideal weight results below: \r\n\r\n" + deserialisedIdealWeightCalc.data);
+
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show(error.Message);
+                }
             }
         }
 
+        //selectedGender goes to API
+        string selectedGender = "";
 
-        #endregion Body Fat API Call
 
-       
+        //male button click
+        private void btn_male_Click(object sender, EventArgs e)
+        {
+            selectedGender = "male";
+
+            btn_male.BackColor = Color.LimeGreen;
+            btn_female.BackColor = Color.WhiteSmoke;
+        }
+
+
+        //female button click
+        private void btn_female_Click(object sender, EventArgs e)
+        {
+            selectedGender = "female";
+
+            btn_female.BackColor = Color.LimeGreen;
+            btn_male.BackColor = Color.WhiteSmoke;
+        }
+
+
     }
+
+    #endregion Body Fat API Call
+
+
+
+
+
 }
